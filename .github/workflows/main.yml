@@ -23,3 +23,29 @@ jobs:
 
       - name: Run Tests
         run: npm run test:ci
+        
+  deploy:
+      name: Deploy to Firebase
+      runs-on: ubuntu-latest
+      needs: [test]
+      steps:
+        - name: Checkout to Repo
+          uses: actions/checkout@main
+  
+        - name: Setup Node
+          uses: actions/setup-node@main
+          with:
+            node-version: "20.x"
+            
+        - name: Install Dependencies
+          run: npm install
+
+        - name: Build the app artifact for prod
+          run: npm run build 
+  
+        - name: Deploy angular app to Firebase
+          uses: w9jds/firebase-action@master
+          with:
+            args: deploy --only hosting
+          env:
+            GCP_SA_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
