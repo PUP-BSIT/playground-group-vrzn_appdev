@@ -44,6 +44,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Substitute variables in JSON files
+        uses: ngduc/replace-action@v1
+        with:
+          path: 'src/environments/environment.ts' # Path to your environment file
+          pattern: 'apiUrl: .*' # Pattern to match the variable to replace
+          replacement: 'apiUrl: "sub sub sub"' # Replacement value
+
       - name: Run Build
         run: npm run build
 
