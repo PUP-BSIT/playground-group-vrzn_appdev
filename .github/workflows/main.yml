@@ -28,10 +28,9 @@ jobs:
         - name: Install Dependencies
           run: npm install
 
-        - name: Substitute variables in JSON file
+        - name: Substitute variables in environment file
           run: |
-            sed -i 's/"apiUrl": ".*/"apiUrl": "sub test",/' src/environments/environment.ts
-
+           sed -i "s~apiUrl: '.*'~apiUrl: 'testing-sub'~" src/environments/environment.ts
         # build the app
         - name: Build the app artifact for prod
           run: npm run build 
